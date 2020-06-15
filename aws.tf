@@ -2,8 +2,8 @@ provider "aws" {
   region = "ap-south-1"
   profile = "nivedita"
 }
-resource "aws_key_pair" "nivi123" {
-  key_name = "nivi123"
+resource "aws_key_pair" "nivi12345" {
+  key_name = "nivi12345"
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAk7cWVvalRLCM99hQ7/MN60nYvHU29Df6huN977gzzpd0vPiBvJnTyrTQJRDV9cQE5X+HxpL8YRgJkK+b1eqWi9MqD7SuUe9gnnJKUdare/6XJM3j7V9TAmYCRGG4ZY5uaxpjcZ5iGvZBtKHLRa8vIkDGKyxNBquqIwoqZ31AXxaars3wmXTceSWaAQ4dVLPrMhPqs1Bymg3iUL7NcJykK+rxUM4qHumN9QM91T0Pym7953+CU5pdSu9qdYDF+eQunXdNwuRJqn/pLEgtvBFQziXDQ2W/UhiE9S88lUChi5vSqxtu/XFQM3pa5rHAJ5OYmxhKVenf80KPx0yRm2XyvQ== rsa-key-20200615"
 }
 
@@ -33,13 +33,13 @@ cidr_blocks = [0.0.0.0/0]
 resource "aws_instance" "web" {
 ami = "ami-0447a12f28fddb066"
 instance_type = "t2.micro"
-key_name = "nivi123"
+key_name = "nivi12345"
 security_groups = ["group1"]
 
 conection {
 	type = "ssh"
 	user = "ec2-user"
-	private_key = file("nivi123.pem")
+	private_key = file("nivi12345.pem")
 	host = aws_instance.web.public_ip
 }
 
@@ -52,7 +52,7 @@ provisioner "remote-exec" {
 }
 
 tags = {
-	Name = "nivios"
+	Name = "nivi1os"
  }
 }
 resource "aws_ebs_volume" "myvol" {
@@ -78,7 +78,7 @@ depends_on = [
 connection {
 	type = "ssh"
 	user = "ec2-user"
-	private_key = file("nivi123.pem")
+	private_key = file("nivi12345.pem")
 	host = aws_instance.web.public_ip
 }
 
@@ -92,14 +92,14 @@ provisioner "remote-exec" {
 }
 }
 resource "aws_s3_bucket" "b" {
-		bucket = "nivedita1"
+		bucket = "niveditabucket"
 		acl = "private"
 	tags = {
 		Name = "mybucket"
 }
 }
 locals {
-	s3_origin_id = "s3-nivedita1"
+	s3_origin_id = "s3-niveditabucket"
 }
 output "b" {
 	value = aws_s3_bucket.b
@@ -139,6 +139,6 @@ resource "aws_cloudfront_distribution" "cloudfront1" {
 	max_ttl = 86400
 }
 resource "aws_s3_bucket_object" "object" {
-	bucket = "nivedita1"
+	bucket = "niveditabucket"
 	key = "cloud.png"
 }
