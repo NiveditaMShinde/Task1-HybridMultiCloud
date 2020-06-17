@@ -38,7 +38,7 @@ egress{
 resource "aws_instance" "web" {
 ami = "ami-0447a12f28fddb066"
 instance_type = "t2.micro"
-key_name = "nivi12345"
+key_name = "nivi12"
 security_groups = ["group1"]
 
 conection {
