@@ -1,9 +1,9 @@
 provider "aws" {
   region = "ap-south-1"
-  profile = "nivedita"
+  profile = "niveditams"
 }
-resource "aws_key_pair" "nivi12345" {
-  key_name = "nivi12345"
+resource "aws_key_pair" "nivi12" {
+  key_name = "nivi12"
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAk7cWVvalRLCM99hQ7/MN60nYvHU29Df6huN977gzzpd0vPiBvJnTyrTQJRDV9cQE5X+HxpL8YRgJkK+b1eqWi9MqD7SuUe9gnnJKUdare/6XJM3j7V9TAmYCRGG4ZY5uaxpjcZ5iGvZBtKHLRa8vIkDGKyxNBquqIwoqZ31AXxaars3wmXTceSWaAQ4dVLPrMhPqs1Bymg3iUL7NcJykK+rxUM4qHumN9QM91T0Pym7953+CU5pdSu9qdYDF+eQunXdNwuRJqn/pLEgtvBFQziXDQ2W/UhiE9S88lUChi5vSqxtu/XFQM3pa5rHAJ5OYmxhKVenf80KPx0yRm2XyvQ== rsa-key-20200615"
 }
 
@@ -11,23 +11,28 @@ resource "aws_key_pair" "nivi12345" {
   name = "group1"
   description="allow ssh and http traffic"
 ingress{
-from_port = 22
-to_port = 22
-protocol = "tcp"
-cidr_blocks = ["0.0.0.0/0]"
+	from_port = 22
+	to_port = 22
+	protocol = "tcp"
+	cidr_blocks = ["0.0.0.0/0]"
 }
 ingress{
-from_port = 80
-to_port = 80
-protocol = "tcp"
-cidr_blocks = ["0.0.0.0/0"]
+	from_port = 80
+	to_port = 80
+	protocol = "tcp"
+	cidr_blocks = ["0.0.0.0/0"]
 }
 ingress{
-from_port = 22
-to_port = 22
-protocol = "tcp"
-cidr_blocks = [0.0.0.0/0]
+	from_port = 443
+	to_port = 443
+	protocol = "tcp"
+	cidr_blocks = ["0.0.0.0/0"]
 }
+egress{
+	from_port = 22
+	to_port = 22
+	protocol = "-1"
+	cidr_blocks = ["0.0.0.0/0"]
 
 
 resource "aws_instance" "web" {
@@ -39,7 +44,7 @@ security_groups = ["group1"]
 conection {
 	type = "ssh"
 	user = "ec2-user"
-	private_key = file("nivi12345.pem")
+	private_key = file("nivi12.pem")
 	host = aws_instance.web.public_ip
 }
 
@@ -78,7 +83,7 @@ depends_on = [
 connection {
 	type = "ssh"
 	user = "ec2-user"
-	private_key = file("nivi12345.pem")
+	private_key = file("nivi12.pem")
 	host = aws_instance.web.public_ip
 }
 
